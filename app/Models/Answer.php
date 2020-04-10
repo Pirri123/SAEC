@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Answer extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'student_id', 'question_id', 'assignment_id', 'short_ans', 'long_ans', 'num_selected_options'
+    ];
+
+    //Relations
+    const relations = ['student', 'options', 'question', 'assignment'];
+
+    public function student(){
+        return $this->belongsTo('App\User', 'student_id', 'id');
+    }
+
+    public function question(){
+        return $this->belongsTo('App\Models\Question');
+    }
+
+    public function assignment(){
+        return $this->belongsTo('App\Models\Assignment');
+    }
+
+    public function options(){
+        return $this->belongsToMany('App\Models\Option');
+    }
+
+}

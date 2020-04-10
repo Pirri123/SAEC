@@ -1,0 +1,43 @@
+type Assignment {
+    id: ID!
+    name: String!
+    start_date: DateTime!
+    due_date: DateTime!
+    close_date: DateTime!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    group: Group! @belongsTo
+    professor: User! @belongsTo
+    form: Form! @belongsTo
+    answers: [Answer!]! @hasMany
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    assignment(id: ID @eq): Assignment @find(model: "App\\Models\\Assignment")
+    assignments: [Assignment!]! @all(model: "App\\Models\\Assignment")
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin|professor"]) {
+    createAssignment(
+        name: String! @rules(apply: ["required","string", "max: 255"])
+        start_date: DateTime! @rules(apply: ["required", "date", "after: yesterday"])
+        due_date: DateTime! @rules(apply: ["required", "date", "after:start_date"])
+        close_date: DateTime! @rules(apply: ["required", "date", "after:due_date"])
+        form_id: ID! @rules(apply: ["required","integer", "exists:forms,id"])
+        group_id: ID! @rules(apply: ["required","integer", "exists:groups,id"])
+    ): Assignment @create
+        @inject(context: "user.id", name:"professor_id")
+
+    updateAssignment(
+        id: ID!
+        name: String @rules(apply: ["string", "max: 255"])
+        start_date: DateTime @rules(apply: ["date", "after: yesterday"])
+        due_date: DateTime @rules(apply: ["date", "after:start_date"])
+        close_date: DateTime @rules(apply: ["date", "after:due_date"])
+        form_id: ID @rules(apply: ["integer", "exists:forms,id"])
+        group_id: ID @rules(apply: ["integer", "exists:groups,id"])
+    ): Assignment @update
+
+    deleteAssignment(id: ID!): Assignment @delete
+}

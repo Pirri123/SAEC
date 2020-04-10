@@ -1,0 +1,909 @@
+.Dash {
+  height: 100vh;
+  display: inline-block;
+  width: 100%;
+}
+
+.Navbar{
+  width: 100%;
+  height: 10%;
+  background-color: #0254A6;
+  z-index: 10;
+}
+
+.dropdown {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1em;
+    padding-right: 1em;
+    padding-top: .5em;
+}
+
+.dropdown__content a{
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dropdown__content a:visited {
+  color: white;
+}
+
+.dropdown__content ul{
+    list-style-type: none;
+    padding: 10% 10% 0 10%;
+}
+
+.dropdown__content li{
+    padding: 40%;
+}
+
+.dropdown__content {
+    display: none;
+    position: absolute;
+    text-align: left;
+    padding-right: 80px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+.dropdown--active .dropdown__content {
+    display: block;
+    background-color:rgba(0,48,66,0.95);
+}
+
+.Navbar__Left{
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+
+.Navbar__Right{
+  float: right;
+  width: 50%;
+  height: 100%;
+}
+
+.Navbar__List{
+  margin-right: 10%;
+  list-style: none;
+  display: inline-flex;
+  color: white;
+}
+
+.Navbar__List li {
+  font-size: 1em;
+  padding-right: 1em;
+  padding-top: .5em;
+}
+
+.Navbar__Link{
+  text-decoration: none;
+  color: white;
+}
+
+.Dashboard{
+  width: 100%;
+  height: auto;
+  color: black;
+}
+
+.Dashboard__New--Activity{
+  margin: 2% 2% 2% 2%;
+  width: 29%;
+  height: inherit;
+  display: inline-block;
+  float: inherit;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 20px;
+  border: 1px dashed lightgray;
+  color: lightgray;
+  cursor: pointer;
+  font-size: 40px;
+}
+
+.Dashboard__New--Activity:hover{
+  box-shadow: 0 8px 16px 0 rgba(54,154,223,0.2);
+  border: 1px dashed #369ADF;
+  color: rgba(54,154,223,0.7);
+}
+
+.Dashboard__New--Activity:before{
+  content: "+";
+  padding-top: 15%;
+  padding-bottom: 15%;
+  position: relative;
+  float: left;
+  left: 50%;
+  top: 50%;
+}
+
+.Dashboard__Activity{
+  margin: 2% 2% 2% 2%;
+  width: 29%;
+  height: auto;
+  display: inline-block;
+  float: inherit;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 20px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.Dashboard__Activity:hover {
+  box-shadow: 0 8px 16px 0 rgba(54,154,223,0.2);
+  border: 1px solid #369ADF;
+}
+
+a.boxclose-hidden{
+  float:right;
+  margin-top:-15px;
+  margin-right:-25px;
+  cursor:pointer;
+  color: #fff;
+  border: 1px solid #AEAEAE;
+  border-radius: 30px;
+  background: #000;
+  font-size: 31px;
+  font-weight: bold;
+  line-height: 0px;
+  padding: 11px 3px;
+  display: none;
+}
+
+a.boxclose{
+    float:right;
+    margin-top:-15px;
+    margin-right:-25px;
+    cursor:pointer;
+    color: #fff;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #000;
+    font-size: 31px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 3px;
+}
+
+.boxclose:before {
+    content: "×";
+}
+
+.AddActivity__Button {
+  background-color: #369ADF;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  margin-top: 1% !important;
+  margin: 0 auto;
+  font-size: 1em;
+  font-weight: 500;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.AddActivity__Button--Competencia {
+  background-color: #369ADF;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  margin-top: 1% !important;
+  margin: 0 auto;
+  font-size: 1em;
+  font-weight: 500;
+  position: absolute;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.Dashboard__Image{
+  width: 100%;
+  background-repeat: no-repeat;
+  background-color: rgba(54,154,223,0.2);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.Dashboard__Image--Group{
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -4px;
+  background-repeat: no-repeat;
+  background-color: rgba(54,154,223,0.2);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.Link--Activity:visited{
+  color: inherit;
+}
+
+.Activity__Erase{
+  padding-top: 30px;
+  float: right;
+  filter: invert(.5);
+  width: 20px;
+}
+
+.Activity__Erase:hover{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
+.Activity__Edit{
+  padding-top: 30px;
+  margin-right: 15px;
+  filter: invert(.5);
+  float: right;
+  width: 20px;
+}
+
+.Activity__Edit:hover{
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
+.Dashboard__Activity--Container{
+  padding: 5px 20px 20px 20px;
+  background-color: rgba(0,0,0,0.05);
+}
+
+.Dashboard__Activity--Options{
+  padding: 20px;
+  background-color: rgba(0,0,0,0.05);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.Create{
+  width: 100%;
+  height: auto;
+  color: black;
+}
+
+.AddActivityForm{
+  width: 68%;
+  height: auto;
+  margin-left: 32%;
+  margin-top: 5%;
+}
+
+.AddLevelsForm{
+  width: 100%;
+  height: auto;
+  margin-top: 5%;
+  padding-bottom: 5%;
+}
+
+.FormField__Competencia{
+  margin: 2% 0% 2% 10%;
+}
+
+.FormField__SubCompetencia{
+  margin: 2% 0% 2% 20%;
+}
+
+.FormField__Dominio{
+  margin: 2% 0% 2% 30%;
+}
+
+.FormField__SubDominio{
+  margin: 2% 0% 2% 40%;
+}
+
+.AddActivity__Input {
+  width: 30%;
+  background-color: transparent;
+  border: none;
+  color: black;
+  outline: none;
+  border-bottom: 1px solid #445366;
+  font-size: 1em;
+  font-weight: 300;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.AddActivity__Input--Competencia {
+  width: 60%;
+  background-color: transparent;
+  border: none;
+  color: black;
+  outline: none;
+  border-bottom: 1px solid #445366;
+  font-size: 1em;
+  font-weight: 300;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.RangeExample{
+  position: relative;
+  left: -5%;
+}
+
+.Calendar__P{
+  color: #369ADF;
+}
+
+.Calendar__Space{
+  margin: 2px;
+  padding: 10px;
+}
+
+.Calendar__Border{
+  margin-right: 40%;
+  padding: 2px;
+}
+
+.DayPicker-Months{
+  border: 3px dashed #f0f8ff !important;
+}
+
+.Calendar__Reset{
+  color: red;
+  margin-left: 3%;
+  border: none;
+  font-size: 1em;
+}
+
+.Hour{
+  position: relative;
+  left: -5%;
+  margin-right: 40%;
+  height: 10vh;
+}
+
+.Hour__Select{
+  color: gray;
+  float: right;
+  width: 50%;
+}
+
+.Hour__P{
+  float: left;
+  color: gray;
+}
+
+.Hour__Space{
+  padding: 2% 0 2% 0;
+}
+
+.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #f0f8ff !important;
+  color: #4a90e2;
+}
+.Selectable .DayPicker-Day {
+  border-radius: 0 !important;
+  border-color: black;
+}
+.Selectable .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+.Selectable .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+
+.Groups_Buttons{
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.AddGroup__Button--Random {
+  background-color: #369ADF;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  margin-top: 1% !important;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.AddGroup__Button--Reset {
+  background-color: #C74646;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  margin-top: 1% !important;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.AddGroup__Button--End {
+  background-color: #7BC043;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  margin-top: 1% !important;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.Group__DropContext{
+  display: flex;
+}
+
+.Group__Column{
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Group__Title{
+  padding: 8px;
+  margin: 2px;
+}
+
+.Profile{
+  width: 100%;
+  background-color: white;
+  height: 70%;
+  color: black;
+}
+
+.Profile__Container{
+  width: 50%;
+  background-color: #0254A6;
+  box-shadow: 0 8px 25px 0 rgba(2,0,0,0.2);
+  transition: box-shadow 1s ease-out;
+  height: 100%;
+  margin-left: 25%;
+  margin-top: 7%;
+  border-radius: 12px;
+  display: block;
+  position: relative;
+}
+
+.Profile__Container:hover{
+  box-shadow: 0 8px 16px 0 rgba(2,0,0,0.7);
+  transition: box-shadow 1s ease-out;
+}
+
+.Profile__User--ImageContainer{
+  border-radius: 50%;
+  display: block;
+  height: 100%;
+  position: absolute;
+  top: -3%;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Profile__User--Image{
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+  height: 30%;
+  position: absolute;
+  top: -12%;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Profile__User--ImagePlus{
+  display: none;
+  transition: background-color 0.5s ease-out;
+  cursor: pointer;
+  margin: 0 auto;
+  height: 100%;
+  position: relative;
+  padding: 45%;
+  top: -82%;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Profile__User--ImagePlus--Label{
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.Profile__User--ImageLabel{
+  display: none;
+  position: relative;
+  top: -22%;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1em;
+  text-align: center;
+}
+
+.Profile__User--ImageCircle{
+  display: none;
+  background-color: rgba(2, 0, 0, 0.2);
+  border-radius: 50%;
+  height: 30%;
+  width: 30%;
+  position: relative;
+  top: -12%;
+  transform-style: preserve-3d;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Profile__User--ImageContainer:hover .Profile__User--ImageCircle{
+  display: block;
+  transition: display 0.5s ease-out;
+}
+
+.Profile__User--ImageContainer:hover .Profile__User--ImagePlus{
+  display: block;
+  transition: display 0.5s ease-out;
+}
+
+.Profile__User--ImageContainer:hover .Profile__User--ImageLabel{
+  display: block;
+}
+
+.Profile__User--ImageContainer:hover .Profile__User--ImagePlus--Label{
+  display: block;
+}
+
+#upload-photo {
+   display: none;
+   position: relative;
+   z-index: -1;
+   width: 100%;
+   height: 100%;
+   position: relative;
+   transform-style: preserve-3d;
+   left: 50%;
+   transform: translateX(-50%);
+}
+
+.Profile__Info{
+  padding-top: 15%;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.Profile__Info--Name{
+  padding-top: 1%;
+  margin-bottom: 1%;
+  width: 100%;
+  height: 7vh;
+  border: none;
+  transition: border 0.5s ease-out;
+}
+
+.Profile__Label{
+  color: white;
+  float: left;
+  padding-right: 20%;
+}
+
+.Profile__User--Edit{
+  display: none;
+  height: 40%;
+  float: right;
+  filter: invert(1);
+}
+
+.Profile__Info--Name:hover .Profile__User--Edit{
+  display: block;
+}
+
+.Profile__User--Edit:hover{
+  cursor: pointer;
+}
+
+.Profile__Label--Email{
+  padding-left: 4%;
+  color: white;
+  font-weight: lighter;
+  position: absolute;
+  transform-style: preserve-3d;
+  left: 26%;
+  cursor: text;
+}
+
+.Profile__Input{
+  width: 60%;
+  background-color: transparent;
+  border: none;
+  color: black;
+  outline: none;
+  border-bottom: 1px solid white;
+  font-size: 1em;
+  font-weight: 300;
+  padding-bottom: 10px;
+  float: center;
+  color: white;
+  position: absolute;
+  transform-style: preserve-3d;
+  left: 60%;
+  transform: translateX(-50%);
+}
+
+.Profile__Input::placeholder {
+  color: white;
+  opacity: 1;
+  transition: font-size 0.5s ease 0.2s;
+}
+
+.Profile__Input:focus::placeholder {
+  font-size: 0px;
+  transition: font-size 0.5s ease 0.2s;
+  margin-bottom: 20px;
+}
+
+.Profile__Info--Button{
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1em;
+  color: #0254A6;
+  background-color: white;
+  display: block;
+  margin: 0 auto;
+}
+
+.Profile__Info--Button:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.Assignment__Show--Info{
+  color: black;
+  height: 90%;
+  width: 100%;
+}
+
+.AssignmentFields--Info{
+  text-align: center;
+  padding-top: 8%;
+  width: 70%;
+  float: right;
+  height: 100%;
+}
+
+.AssignmentInfo-Field{
+  width: 100%;
+  padding-top: 5%;
+  height: 15%;
+  display: block;
+}
+
+.AssignmentInfo-Field-Right{
+  width: 50%;
+  height: 20%;
+  display: inline-block;
+  float: right;
+}
+
+.AssignmentInfo-Field-Left{
+  width: 50%;
+  height: 20%;
+  display: inline-block;
+  float: left;
+}
+
+.AssignmentInfo-Field__Label{
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: .9em;
+  color: black;
+}
+
+.AssignmentInfo-Result__Label{
+  color: #369ADF;
+}
+
+.AssignmentInfo__Button{
+  background-color: #369ADF;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  padding: 15px 70px;
+  font-size: .9em;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.AssignmentInfo__Right{
+  width: 30%;
+  height: 100%;
+  float: left;
+  border-right: 1px solid #369ADF;
+}
+
+.AssignmentInfo__Container{
+  position: relative;
+  top: 37%;
+  left: 37%;
+}
+
+.AssignmentInfo__Image{
+  height: 50%;
+  width: 50%;
+}
+
+.EditActivityForm{
+  width: 68%;
+  height: auto;
+  margin-left: 32%;
+  margin-top: 5%;
+}
+
+.FormFields-Edit{
+  height: auto;
+  display: inline-block;
+}
+
+.AssignmentInfo-together, .AssignmentInfo-together--Calendar, .AssignmentInfo-together--CloseDate, .AssignmentInfo-together--Form, .AssignmentInfo-together--Group{
+  display: block;
+  width: 70%;
+  height: 5vh;
+}
+
+.AssignmentInfo--hidden{
+  display: none;
+  width: 70%;
+  height: 5vh;
+}
+
+.AssignmentInfo-together__Label{
+  color: #369ADF;
+  float: left;
+}
+
+.AssignmentInfo--Edit{
+  margin-top: 4%;
+  width: 8%;
+  height: 40%;
+  float: right;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(175deg);
+  cursor: pointer;
+}
+
+.AssignmentInfo--Edit--Save{
+  margin-top: 4%;
+  width: 4%;
+  height: 40%;
+  float: right;
+  margin-right: 3%;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(100deg);
+  cursor: pointer;
+}
+
+.Calendar--Edit--Save{
+  margin-top: 2%;
+  width: 3%;
+  height: 40%;
+  float: center;
+  margin-right: 3%;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(100deg);
+  cursor: pointer;
+  margin-right: 10%;
+  margin-left: 20%;
+}
+
+.Select--Edit--Save{
+  width: 2%;
+  height: 40%;
+  float: center;
+  margin-right: 3%;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(100deg);
+  cursor: pointer;
+  margin-right: 3%;
+  margin-left: 30%;
+}
+
+.Select--Edit--Cancel{
+  width: 2%;
+  height: 40%;
+  float: center;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(307deg);
+  cursor: pointer;
+  margin-right: 10%;
+}
+
+.Calendar--Edit--Cancel{
+  margin-top: 2%;
+  width: 3%;
+  height: 40%;
+  float: center;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(307deg);
+  cursor: pointer;
+  margin-right: 3%;
+}
+
+.AssignmentInfo--Edit--Cancel{
+  margin-top: 4%;
+  width: 4%;
+  height: 40%;
+  float: right;
+  filter: invert(.5) sepia(1) saturate(5) hue-rotate(307deg);
+  cursor: pointer;
+  margin-right: 10%;
+}
+
+.EditActivity__Input {
+  width: 70%;
+  background-color: transparent;
+  border: none;
+  color: black;
+  outline: none;
+  border-bottom: 1px solid #445366;
+  font-size: 1em;
+  font-weight: 300;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.EditFormField__Button {
+  float: center;
+  background-color: #369ADF;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  margin-top: 3%;
+  padding: 15px 70px;
+  font-size: .8em;
+  font-weight: 500;
+  cursor: pointer;
+  display: none;
+}
+
+.FormField-Calendar{
+  display: block;
+  margin-bottom: 40px;
+}
+
+.Calendar--hidden, .CloseDate--hidden, .Form--hidden, .Group--hidden{
+  display: none;
+}
+
+.Students{
+  width: 100%;
+  background-color: red;
+  color: black;
+}
+
+
+
+.Options{
+  width: 100%;
+  background-color: purple;
+  color: black;
+}

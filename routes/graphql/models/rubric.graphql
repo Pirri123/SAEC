@@ -1,0 +1,33 @@
+type Rubric{
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    professor: User! @belongsTo
+    assignment: Assignment! @belongsTo
+
+    questions: [RubricQuestion]! @hasMany
+    rubricEvaluations: [RubricEvaluation]! @hasMany
+
+}
+
+extend type Query @middleware(checks: ["auth:api"]){
+    rubric(id: ID @eq): Rubric @find(model: "App\\Models\\Rubric")
+    rubrics: [Rubric!]! @all(model: "App\\Models\\Rubric")
+
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:professor"]){
+    createRubric(
+        name: String! @rules(apply: ["required", "string", "max: 255"])
+        professor_id: String! @rules(apply: ["required", "string", "size: 9", "exists:users, id"])
+        assignment_id: String! @rules(apply: ["required", "string", "size: 9", "exists:assignments, id"])
+    ): Rubric @create
+
+    updateRubric(
+        id: Int!
+        name: String! @rules(apply: ["required", "string", "max: 255"]) 
+    ): Rubric @update
+
+    deleteRubric(id: Int!): Rubric @delete
+}

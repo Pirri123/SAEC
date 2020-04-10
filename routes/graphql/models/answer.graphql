@@ -1,0 +1,38 @@
+type Answer {
+    id: ID!
+    short_ans: String
+    long_ans: String
+    num_selected_options: Int
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    student: User! @belongsTo
+    question: Question! @belongsTo
+    assignment: Assignment! @belongsTo
+    options: [Option!]! @belongsToMany
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    answer(id: ID @eq): Answer @find(model: "App\\Models\\Answer")
+    answers: [Answer!]! @all(model: "App\\Models\\Answer")
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin|student"]) {
+    createAnswer(
+        short_ans: String @rules(apply: ["string", "max: 200"])
+        long_ans: String @rules(apply: ["string", "max: 1000"])
+        num_selected_options: Int @rules(apply: ["integer"])
+        student_id: String! @rules(apply: ["string", "size:9", "exists:users,id"])
+        assignment_id: ID! @rules(apply: ["required","integer", "exists:assignments,id"])
+        question_id: ID! @rules(apply: ["required","integer", "exists:questions,id"])
+    ): Answer @create
+
+    updateAnswer(
+        id: ID!
+        short_ans: String @rules(apply: ["string", "max: 200"])
+        long_ans: String @rules(apply: ["string", "max: 1000"])
+        num_selected_options: Int @rules(apply: ["integer"])
+    ): Answer @update
+
+    deleteAnswer(id: ID!): Answer @delete
+}

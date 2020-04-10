@@ -1,0 +1,26 @@
+type Form {
+    id: ID!
+    name: String!
+
+    admin: User! @belongsTo
+    questions: [Question]! @hasMany
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    form(id: ID @eq): Form @find(model: "App\\Models\\Form")
+    forms: [Form!]! @all(model: "App\\Models\\Form")
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin"]) {
+    createForm(
+        name: String! @rules(apply: ["required","string", "max: 255"])
+        admin_id: String! @rules(apply: ["required","string", "size: 9", "exists:users,id"])
+    ): Form @create
+
+    updateForm(
+        id: Int!
+        name: String @rules(apply: ["string", "max: 255"])
+    ): Form @update
+
+    deleteForm(id: Int!): Form @delete
+}

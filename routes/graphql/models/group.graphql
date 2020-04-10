@@ -1,0 +1,32 @@
+type Group {
+    id: ID!
+    class_code: String!
+    group_number: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    assignments: [Assignment] @hasMany
+    students: [User] @belongsToMany
+    professor: User @belongsTo(relation: "professor")
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    group(id: ID @eq): Group @find(model: "App\\Models\\Group")
+    groups: [Group!]! @all(model: "App\\Models\\Group")
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin|professor"]) {
+    createGroup(
+        class_code: String! @rules(apply: ["required","string", "max: 10"])
+        group_number: Int! @rules(apply: ["required","integer", "max: 100"])
+    ): Group @create
+        @inject(context: "user.id", name:"professor_id")
+
+    updateGroup(
+        id: ID!
+        class_code: String @rules(apply: ["string", "max: 10"])
+        group_number: Int @rules(apply: ["integer", "max: 100"])
+    ): Group @update
+
+    deleteGroup(id: ID!): Group @delete
+}

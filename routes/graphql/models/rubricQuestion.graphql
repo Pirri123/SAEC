@@ -1,0 +1,31 @@
+type RubricQuestion{
+    id: ID!
+    question: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    rubric: Rubric! @belongsTo
+
+    options: [Option]! @hasMany
+    rubricEvaluations: [RubricEvaluation]! @hasMany
+
+}
+
+extend type Query @middleware (checks: ["auth:api"]){
+    rubricQuestion(id: ID @eq): RubricQuestion @find(model: "App\\Models\\RubricQuestion")
+    rubricQuestions: [RubricQuestion!]! @all(model: "App\\Models\\RubricQuestion")
+
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin"]) {
+    createRubricQuestion(
+        question: String! @rules(apply: ["required","string", "max: 255"])
+        rubric_id: ID! @rules(apply: ["required","integer", "exists:rubrics,id"])
+    ): RubricQuestion @create
+
+    updateRubricQuestion(
+        id: ID!
+        question: String @rules(apply: ["string", "max: 255"])
+    ): RubricQuestion @update
+
+    deleteQuestion(id: ID!): RubricQuestion @delete
+}

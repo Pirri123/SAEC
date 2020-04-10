@@ -1,0 +1,27 @@
+type User {
+    id: String!
+    name: String!
+    lastname: String!
+    email: String!
+    image: String!
+    semester: Int
+    mayor: Mayor
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    groups: [Group] @hasMany
+    forms: [Form] @hasMany
+    answers: [Answer] @hasMany
+    groupStudent: [Group] @belongsToMany
+    roles: [Role] @belongsToMany
+}
+
+type Role {
+    name: String!
+}
+
+enum Mayor{
+    ITC @enum(value: "ITC")
+    ISD @enum(value: "LAD")
+    INT @enum(value: "INT")
+}

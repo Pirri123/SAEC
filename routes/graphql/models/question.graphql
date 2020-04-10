@@ -1,0 +1,38 @@
+type Question {
+    id: ID!
+    question: String!
+    type: QuestionType!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    form: Form! @belongsTo
+    options: [Option]! @hasMany
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    question(id: ID @eq): Question @find(model: "App\\Models\\Question")
+    questions: [Question!]! @all(model: "App\\Models\\Question")
+}
+
+extend type Query @middleware(checks: ["auth:api", "role:admin"]) {
+    createQuestion(
+        question: String! @rules(apply: ["required","string", "max: 255"])
+        type: QuestionType! @rules(apply: ["required", "in:SHORT,LONG,RADIO,SQUARE"])
+        form_id: ID! @rules(apply: ["required","integer", "exists:forms,id"])
+    ): Question @create
+
+    updateQuestion(
+        id: ID!
+        question: String @rules(apply: ["string", "max: 255"])
+        type: QuestionType @rules(apply: ["in:SHORT,LONG,RADIO,SQUARE"])
+    ): Question @update
+
+    deleteQuestion(id: ID!): Question @delete
+}
+
+enum QuestionType {
+    SHORT @enum(value: "SHORT")
+    LONG @enum(value: "LONG")
+    RADIO @enum(value: "RADIO")
+    SQUARE @enum(value: "SQUARE")
+}
