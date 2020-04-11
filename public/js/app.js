@@ -45574,13 +45574,6 @@ function (_Component) {
         email: email.value,
         password: password.value
       };
-      this.setState({
-        classInputEmail: 'FormField__Input',
-        classInputPassword: 'FormField__Input',
-        errorEmail: '',
-        errorPassword: '',
-        error: ''
-      });
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/login', userInfo).then(function (res) {
         if (res.status === 200) {
           var _res$data = res.data,
@@ -45602,7 +45595,7 @@ function (_Component) {
       })["catch"](function (error) {
         if (error.response.status === 401) {
           _this2.setState({
-            error: 'Usuario o contraseña incorrecta',
+            error: 'Usuario o contraseña incorrect',
             classInputEmail: 'FormField__Input-Error',
             classInputPassword: 'FormField__Input-Error'
           });
@@ -46610,10 +46603,14 @@ function (_Component) {
     _classCallCheck(this, AddGroup);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AddGroup).call(this, props));
-    _this.state = {
-      alumnos: {}
-    };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.state = {
+      alumnos: {},
+      classInputClass: 'FormField_Input',
+      classInputGroup: 'FormField_Input',
+      errorClass: '',
+      errorGroup: ''
+    };
     return _this;
   }
 
@@ -46671,12 +46668,77 @@ function (_Component) {
           query: "\n        query {\n        \t  createGroup(\n            class_code: \"".concat(clase, "\",\n            group_number: ").concat(numero, "\n          ) {\n            id\n            class_code\n            group_number\n          }\n        }\n        ")
         }
       }).then(function (res) {
-        console.log(res);
-        var path = "/groups";
+        var response = JSON.parse(res.request.response);
 
-        _this3.props.history.push(path);
+        if (response.errors) {
+          if (typeof clase === 'string' && clase.length > 10) {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: 'El código del grupo debe de tener menos de 10 carácteres'
+              };
+            });
+          }
+
+          if (numero > 100) {
+            //Error: group Number is too big
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo debe ser menor a 100'
+              };
+            });
+          } else if (response.errors[0].debugMessage) {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo solo admite números'
+              };
+            });
+          }
+
+          if (clase === "") {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: 'El código del grupo no puede estar vacio'
+              };
+            });
+          }
+
+          if (numero === "") {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo no puede estar vacio'
+              };
+            });
+          }
+
+          if (numero !== '' && numero < 100) {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: ''
+              };
+            });
+          }
+
+          if (typeof clase === 'string' && clase.length > 0 && clase.length <= 10) {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: ''
+              };
+            });
+          }
+        } else {
+          var path = "/groups";
+
+          _this3.props.history.push(path);
+        }
       })["catch"](function (error) {
-        console.log(error);
+        console.log(error); //For some reason, no errors get catched, so everything is handled in the then.
       });
     }
   }, {
@@ -46698,7 +46760,10 @@ function (_Component) {
         className: "AddActivity__Input",
         placeholder: "Ingresa el c\xF3digo de la clase (TC0001): ",
         name: "classCode"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "FormField__Label-Error",
+        htmlFor: "error"
+      }, " ", this.state.errorClass, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "FormField"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "FormField__Label",
@@ -46709,7 +46774,10 @@ function (_Component) {
         className: "AddActivity__Input",
         placeholder: "Ingresa el n\xFAmero del grupo: ",
         name: "groupNumber"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "FormField__Label-Error",
+        htmlFor: "error"
+      }, " ", this.state.errorGroup, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "FormField"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "FormField__Button mr-20"

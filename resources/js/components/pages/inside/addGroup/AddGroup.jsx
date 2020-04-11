@@ -5,10 +5,14 @@ import axios from 'axios';
 class AddGroup extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      alumnos: {}
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      alumnos: {},
+      classInputClass: 'FormField_Input',
+      classInputGroup: 'FormField_Input',
+      errorClass: '',
+      errorGroup: ''
+    };
   }
 
   componentDidMount() {
@@ -76,12 +80,68 @@ class AddGroup extends Component {
         `
       }
     }).then(res => {
-      console.log(res);
-      let path = `/groups`;
-      this.props.history.push(path);
+      const response = JSON.parse(res.request.response);
+      if (response.errors){
+        if (typeof(clase) === 'string' && clase.length > 10){
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: 'El código del grupo debe de tener menos de 10 carácteres'
+          }));
+        }
+
+        if (numero > 100){
+          //Error: group Number is too big
+
+            this.setState(() => ({
+              classInputGroup: 'FormField_AInput-Error',
+              errorGroup: 'El número del grupo debe ser menor a 100'
+            }));
+        }
+         else if (response.errors[0].debugMessage){
+          this.setState(() => ({
+            classInputGroup: 'FormField_AInput-Error',
+            errorGroup: 'El número del grupo solo admite números'
+          }));
+        } 
+
+        if (clase === "") {
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: 'El código del grupo no puede estar vacio'
+          }));
+          
+        }
+        if (numero === "") {
+            this.setState(() => ({
+              classInputGroup: 'FormField_AInput-Error',
+              errorGroup: 'El número del grupo no puede estar vacio'
+            }));
+        } 
+
+        if (numero !== '' && numero < 100 ){
+          this.setState(() => ({
+            classInputGroup: 'FormField_AInput-Error',
+            errorGroup: ''
+          }));
+        }
+
+        if (typeof(clase) === 'string' && clase.length > 0 && clase.length <= 10){
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: ''
+          }));
+        }
+        
+      } else{
+        let path = `/groups`;
+        this.props.history.push(path);
+      }
+      
+      
     })
       .catch(error => {
         console.log(error);
+        //For some reason, no errors get catched, so everything is handled in the then.
       });
   }
 
@@ -92,10 +152,12 @@ class AddGroup extends Component {
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name"> Código del Grupo </label>
             <input type="text" id="classCode" className="AddActivity__Input" placeholder="Ingresa el código de la clase (TC0001): " name="classCode" />
+            <label className="FormField__Label-Error" htmlFor="error"> {this.state.errorClass} </label>
           </div>
           <div className="FormField">
             <label className="FormField__Label" htmlFor="name"> Número del Grupo </label>
             <input type="text" id="groupNumber" className="AddActivity__Input" placeholder="Ingresa el número del grupo: " name="groupNumber" />
+            <label className="FormField__Label-Error" htmlFor="error"> {this.state.errorGroup} </label>
           </div>
           <div className="FormField">
             <button className="FormField__Button mr-20"> Crear Grupo </button>

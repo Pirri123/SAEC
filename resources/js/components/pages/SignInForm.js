@@ -46,14 +46,6 @@ class SignInForm extends Component {
         password: password.value
       };
 
-      this.setState({
-        classInputEmail: 'FormField__Input',
-        classInputPassword: 'FormField__Input',
-        errorEmail: '',
-        errorPassword: '',
-        error: ''
-      });
-
       axios.post('/api/login', userInfo)
         .then(res => {
           if(res.status === 200){
@@ -69,7 +61,7 @@ class SignInForm extends Component {
         .catch(error => {
           if (error.response.status === 401) {
             this.setState({
-              error: 'Usuario o contraseña incorrecta',
+              error: 'Usuario o contraseña incorrect',
               classInputEmail: 'FormField__Input-Error',
               classInputPassword: 'FormField__Input-Error'
             });
