@@ -12,7 +12,11 @@ class EditGroup extends Component {
       alumnos: {},
       name: this.props.location.state.group.clase,
       group_number: this.props.location.state.group.numeroGrupo,
-      id: this.props.location.state.group.id
+      id: this.props.location.state.group.id,
+      classInputClass: 'FormField_Input',
+      classInputGroup: 'FormField_Input',
+      errorClass: '',
+      errorGroup: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.saveCode = this.saveCode.bind(this);
@@ -121,8 +125,7 @@ class EditGroup extends Component {
       data: {
         query: `
         query {
-        	  updateGroup(
-            id: ${id},
+        	  createGroup(
             class_code: "${clase}",
             group_number: ${numero}
           ) {
@@ -134,12 +137,68 @@ class EditGroup extends Component {
         `
       }
     }).then(res => {
-      console.log(res);
-      let path = `/groups`;
-      this.props.history.push(path);
+      const response = JSON.parse(res.request.response);
+      if (response.errors){
+        if (typeof(clase) === 'string' && clase.length > 10){
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: 'El código del grupo debe de tener menos de 10 carácteres'
+          }));
+        }
+
+        if (numero > 100){
+          //Error: group Number is too big
+
+            this.setState(() => ({
+              classInputGroup: 'FormField_AInput-Error',
+              errorGroup: 'El número del grupo debe ser menor a 100'
+            }));
+        }
+         else if (response.errors[0].debugMessage){
+          this.setState(() => ({
+            classInputGroup: 'FormField_AInput-Error',
+            errorGroup: 'El número del grupo solo admite números'
+          }));
+        } 
+
+        if (clase === "") {
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: 'El código del grupo no puede estar vacio'
+          }));
+          
+        }
+        if (numero === "") {
+            this.setState(() => ({
+              classInputGroup: 'FormField_AInput-Error',
+              errorGroup: 'El número del grupo no puede estar vacio'
+            }));
+        } 
+
+        if (numero !== '' && numero < 100 ){
+          this.setState(() => ({
+            classInputGroup: 'FormField_AInput-Error',
+            errorGroup: ''
+          }));
+        }
+
+        if (typeof(clase) === 'string' && clase.length > 0 && clase.length <= 10){
+          this.setState(() => ({
+            classInputClass: 'FormField_AInput-Error',
+            errorClass: ''
+          }));
+        }
+        
+      } else{
+        let path = `/groups`;
+        this.props.history.push(path);
+      }
+      
+      
     })
       .catch(error => {
         console.log(error);
+        //For some reason, no errors get catched, so everything is handled in the then.
       });
   }
 
@@ -160,7 +219,7 @@ class EditGroup extends Component {
               <img className="AssignmentInfo--Edit--Cancel" onClick={this.showLabelName} src={cross} />
               <img className="AssignmentInfo--Edit--Save" onClick={this.saveCode} src={check} />
             </div>
-
+            <label className="FormField__Label-Error" htmlFor="error"> {this.state.errorClass} </label>
         </div>
 
           <div className="FormField">
@@ -176,7 +235,7 @@ class EditGroup extends Component {
                 <img className="AssignmentInfo--Edit--Cancel" onClick={this.showLabelGroup} src={cross} />
                 <img className="AssignmentInfo--Edit--Save" onClick={this.saveGroup} src={check} />
               </div>
-
+              <label className="FormField__Label-Error" htmlFor="error"> {this.state.errorGroup} </label>
           </div>
           <div className="FormField">
             <button className="FormField__Button mr-20"> Guardar Cambios </button>

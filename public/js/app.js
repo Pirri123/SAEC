@@ -48108,7 +48108,11 @@ function (_Component) {
       alumnos: {},
       name: _this.props.location.state.group.clase,
       group_number: _this.props.location.state.group.numeroGrupo,
-      id: _this.props.location.state.group.id
+      id: _this.props.location.state.group.id,
+      classInputClass: 'FormField_Input',
+      classInputGroup: 'FormField_Input',
+      errorClass: '',
+      errorGroup: ''
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.saveCode = _this.saveCode.bind(_assertThisInitialized(_this));
@@ -48224,15 +48228,80 @@ function (_Component) {
           'Authorization': "Bearer ".concat(this.props.token)
         },
         data: {
-          query: "\n        query {\n        \t  updateGroup(\n            id: ".concat(id, ",\n            class_code: \"").concat(clase, "\",\n            group_number: ").concat(numero, "\n          ) {\n            id\n            class_code\n            group_number\n          }\n        }\n        ")
+          query: "\n        query {\n        \t  createGroup(\n            class_code: \"".concat(clase, "\",\n            group_number: ").concat(numero, "\n          ) {\n            id\n            class_code\n            group_number\n          }\n        }\n        ")
         }
       }).then(function (res) {
-        console.log(res);
-        var path = "/groups";
+        var response = JSON.parse(res.request.response);
 
-        _this3.props.history.push(path);
+        if (response.errors) {
+          if (typeof clase === 'string' && clase.length > 10) {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: 'El código del grupo debe de tener menos de 10 carácteres'
+              };
+            });
+          }
+
+          if (numero > 100) {
+            //Error: group Number is too big
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo debe ser menor a 100'
+              };
+            });
+          } else if (response.errors[0].debugMessage) {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo solo admite números'
+              };
+            });
+          }
+
+          if (clase === "") {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: 'El código del grupo no puede estar vacio'
+              };
+            });
+          }
+
+          if (numero === "") {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: 'El número del grupo no puede estar vacio'
+              };
+            });
+          }
+
+          if (numero !== '' && numero < 100) {
+            _this3.setState(function () {
+              return {
+                classInputGroup: 'FormField_AInput-Error',
+                errorGroup: ''
+              };
+            });
+          }
+
+          if (typeof clase === 'string' && clase.length > 0 && clase.length <= 10) {
+            _this3.setState(function () {
+              return {
+                classInputClass: 'FormField_AInput-Error',
+                errorClass: ''
+              };
+            });
+          }
+        } else {
+          var path = "/groups";
+
+          _this3.props.history.push(path);
+        }
       })["catch"](function (error) {
-        console.log(error);
+        console.log(error); //For some reason, no errors get catched, so everything is handled in the then.
       });
     }
   }, {
@@ -48274,7 +48343,10 @@ function (_Component) {
         className: "AssignmentInfo--Edit--Save",
         onClick: this.saveCode,
         src: _img_check2_svg__WEBPACK_IMPORTED_MODULE_3___default.a
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "FormField__Label-Error",
+        htmlFor: "error"
+      }, " ", this.state.errorClass, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "FormField"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "FormField__Label",
@@ -48305,7 +48377,10 @@ function (_Component) {
         className: "AssignmentInfo--Edit--Save",
         onClick: this.saveGroup,
         src: _img_check2_svg__WEBPACK_IMPORTED_MODULE_3___default.a
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "FormField__Label-Error",
+        htmlFor: "error"
+      }, " ", this.state.errorGroup, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "FormField"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "FormField__Button mr-20"
